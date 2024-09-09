@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant Menu Poster</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f4f4f4;
+    }
+
+    .video-container {
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+      overflow: hidden; /* To handle zoomed video overflow */
+      position: relative;
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, transform-origin 0.3s ease; /* Smooth transition for zoom and origin */
+      transform-origin: center center; /* Default origin at the center */
+    }
+
+    /* Zoomed-in class */
+    .zoomed {
+      transform: scale(2); /* Double the size on zoom */
+    }
+  </style>
+</head>
+<body>
+  <div class="video-container">
+    <video id="menuVideo" autoplay muted loop>
+      <source src="asset/Restaurant menu.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <script>
+    // Select the video element
+    const video = document.getElementById('menuVideo');
+    const videoContainer = document.querySelector('.video-container');
+
+    // Add event listener for double-click to toggle zoom
+    video.addEventListener('dblclick', function(e) {
+      const rect = video.getBoundingClientRect(); // Get video size and position
+
+      // Calculate where the click occurred relative to the video
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+
+      // Calculate the percentage of the click position in the video
+      const clickXPercent = (clickX / rect.width) * 100;
+      const clickYPercent = (clickY / rect.height) * 100;
+
+      // Set the transform-origin to the click position
+      video.style.transformOrigin = `${clickXPercent}% ${clickYPercent}%`;
+
+      // Toggle the 'zoomed' class on double-click
+      if (video.classList.contains('zoomed')) {
+        video.classList.remove('zoomed'); // Remove zoom
+      } else {
+        video.classList.add('zoomed'); // Apply zoom
+      }
+    });
+  </script>
+</body>
+</html>
